@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hello, World! • A-Frame</title>
+    <meta name="description" content="Hello, World! • A-Frame" />
+    <script src="https://aframe.io/releases/1.8.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-extras@7.5.0/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@gh-pages/examples/js/remix-dropdown.js"></script>
+  </head>
+  <body>
+    <a-scene
+      background="color: #000000"
+      keyboard-shortcuts=""
+      screenshot=""
+      xr-mode-ui=""
+      device-orientation-permission-ui=""
+    >
+      <a-camera position="0 1 4" look-controls> </a-camera>
+      <audio src="/cumbia-marciana.mp3" loop autoplay></audio>
+
+      <a-light
+        type="spot"
+        color="#00ff66"
+        intensity="2"
+        position="0 3 0"
+        rotation="-90 0 0"
+        angle="100"
+        decay="0"
+      ></a-light>
+
+      <a-light
+        type="spot"
+        color="#00ff66"
+        intensity="2"
+        position="0 3 -5"
+        rotation="-90 0 -45"
+        angle="100"
+        decay="0"
+      ></a-light>
+
+      <a-light
+        type="spot"
+        color="#00ff66"
+        intensity="2"
+        position="0 3 5"
+        rotation="-90 0 45"
+        angle="100"
+        decay="0"
+      ></a-light>
+
+      <a-plane
+        position="0 0 0"
+        rotation="-90 0 0"
+        width="8"
+        height="8"
+        color="#03041c"
+        shadow=""
+      ></a-plane>
+
+      <a-entity id="dance-floor"></a-entity>
+      <a-box
+        position="0 0 0"
+        rotation="0 0 0"
+        width="0.5"
+        depth="0.5"
+        height="0.05"
+        material="color: #111111;
+            emissive: #ff0044;
+            emissiveIntensity: 3"
+      >
+        shadow="" >
+      </a-box>
+
+      <a-entity
+        gltf-model="/Alien.glb"
+        position="0 0.05 0"
+        rotation="0 0 0"
+        scale="1 1 1"
+        animation-mixer="clip: mixamo.com"
+      >
+      </a-entity>
+    </a-scene>
+
+    <script>
+      const floor = document.querySelector("#dance-floor");
+      const rows = 10;
+      const cols = 10;
+      const tileSize = 0.5;
+      const gap = 0.01;
+
+      for (let x = 0; x < cols; x++) {
+        for (let z = 0; z < rows; z++) {
+          const tile = document.createElement("a-box");
+
+          tile.setAttribute("width", tileSize);
+          tile.setAttribute("height", 0.1);
+          tile.setAttribute("depth", tileSize);
+
+          tile.setAttribute("position", {
+            x: (x - 4) * (tileSize + gap),
+            y: 0,
+            z: (z - 5) * (tileSize + gap),
+          });
+
+          tile.setAttribute("color", "#333");
+
+          floor.appendChild(tile);
+        }
+      }
+
+      // Colores
+      const colors = [
+        "#00e5ff", // Cyan
+        "#7c00ff", // Morado
+        "#00ff66", // Verde
+      ];
+
+      //Cambia de color el piso
+      function changeTileColors() {
+        const tiles = document.querySelectorAll("#dance-floor a-box");
+
+        tiles.forEach((tile) => {
+          const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+          tile.setAttribute("material", "emissive: " + randomColor);
+          tile.setAttribute("material", "emissiveIntensity: 0.7");
+        });
+      }
+
+      function changeLightsColors() {
+        const lights = document.querySelectorAll("a-light");
+        lights.forEach((light) => {
+          const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+          light.setAttribute("color", randomColor);
+        });
+      }
+
+      setInterval(changeTileColors, 1000);
+      setInterval(changeLightsColors, 1000);
+
+      console.log("Abner-Sama <3");
+    </script>
+  </body>
+</html>
